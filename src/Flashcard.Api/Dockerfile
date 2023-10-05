@@ -2,16 +2,17 @@
 
 FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
 WORKDIR /app
-EXPOSE 80
-EXPOSE 443
+ENV ASPNETCORE_ENVIRONMENT = Development
+# EXPOSE 3000
+# EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
-COPY ["src/Flashcard.Api/Flashcard.Api.csproj", "src/Flashcard.Api/"]
-RUN dotnet restore "src/Flashcard.Api/Flashcard.Api.csproj"
+COPY ["./Flashcard.Api.csproj", "./"]
+RUN dotnet restore "./Flashcard.Api.csproj"
 COPY . .
-WORKDIR "/src/src/Flashcard.Api"
-RUN dotnet build "Flashcard.Api.csproj" -c Release -o /app/build
+WORKDIR /src
+RUN dotnet build "./Flashcard.Api.csproj" -c Release -o /app/build
 
 FROM build AS publish
 RUN dotnet publish "Flashcard.Api.csproj" -c Release -o /app/publish /p:UseAppHost=false
@@ -19,4 +20,4 @@ RUN dotnet publish "Flashcard.Api.csproj" -c Release -o /app/publish /p:UseAppHo
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "Flashcard.Api.dll"]
+ENTRYPOINT ["dotnet", "Flashcard.Api.dll", "--environment=Development"]

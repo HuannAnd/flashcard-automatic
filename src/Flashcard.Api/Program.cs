@@ -28,6 +28,7 @@ app.MapPost("/api/v1/flashcards", ([FromServices] IFlashcardDbRepository reposit
         Words = request.Words,
         Date = DateOnly.FromDateTime(request.Date ?? DateTime.Now)
     });
+
     return "Hello World!";
 })
 .WithName("GetWeatherForecast")
@@ -37,7 +38,17 @@ app.MapGet("/api/v1/flashcards", ([FromQuery] DateOnly date) =>
 {
     return new string[]{
           "afoinagSOIUNDS",
-        "Dragon é gay",
+        "Dragon ï¿½ gay",
+        "Hunter > Dragon",
+        "GG ez"
+        };
+});
+
+app.MapGet("/hello", () => 
+{
+    return new string[]{
+          "afoinagSOIUNDS",
+        "Dragon ï¿½ gay",
         "Hunter > Dragon",
         "GG ez"
         };
