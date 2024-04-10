@@ -1,10 +1,10 @@
 ﻿namespace Flashcard.Api;
 
-public sealed class FlashcardDocument
+public sealed class WordDocument
 {
     public Guid Id { get; set; }
-    public required DateOnly Date { get; set; }
-    public required IEnumerable<string> Words { get; set;  }
+    public required DateTime Date { get; set; }
+    public required string Word {get; set;}
 
     //public FlashcardDocument(IEnumerable<string> words, DateOnly? date = null, Guid? id = null)
     //{

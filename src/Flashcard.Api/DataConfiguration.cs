@@ -20,24 +20,24 @@ public static class DataConfiguration
 
         ConfigureMongoDbGuidSerializer();
 
-        services.AddMongoDbContext<IMongoDbContext, FlashcardDbContext>(_ =>
+        services.AddMongoDbContext<IMongoDbContext, WordDbContext>(_ =>
         {
-            var connectionString = configuration.GetConnectionString("Flashcard");
+            var connectionString = configuration.GetConnectionString("MongoDbConnection");
 
-            var context = new FlashcardDbContext(MongoClientSettings.FromConnectionString(connectionString), "MyDb");
+            var context = new WordDbContext(MongoClientSettings.FromConnectionString(connectionString), "Flashcards");
 
             return context;
         });
 
-        services.AddMongoDbUnitOfWork<FlashcardDbContext>();
+        services.AddMongoDbUnitOfWork<WordDbContext>();
 
-        services.TryAddScoped<IFlashcardDbRepository, FlashcardDbRepository>();
+        services.TryAddScoped<IWordDbRepository, WordDbRepository>();
     }
 
     /// <summary>
     /// Configures MongoDb GUID Serializer to use GuidRepresentation.Standard.
     /// </summary>
-    /// <see href="https://mongodb.github.io/mongo-csharp-driver/2.12/reference/bson/guidserialization/guidrepresentationmode/guidrepresentationmode/#opting-in-to-v3-guidrepresentationmode"/>
+    /// <see href="https://mongodb.github.io/mongo-csharp-driver/2.1rcd/reference/bson/guidserialization/guidrepresentationmode/guidrepresentationmode/#opting-in-to-v3-guidrepresentationmode"/>
     private static void ConfigureMongoDbGuidSerializer()
     {
         BsonSerializer.RegisterSerializer(new GuidSerializer(GuidRepresentation.Standard));

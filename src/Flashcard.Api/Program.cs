@@ -21,37 +21,21 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.MapPost("/api/v1/flashcards", ([FromServices] IFlashcardDbRepository repository, FlashcardRequest request) =>
+app.MapGet("/api/v1/word/list", ([FromServices] IWordDbRepository repository) =>
 {
-    repository.Add(new FlashcardDocument
+    return repository.GetPagedList(0, 10).Items;
+
+});
+
+
+app.MapPost("api/v1/word/send", ([FromServices] IWordDbRepository repository, WordRequest request) =>
+{
+    repository.Add(new WordDocument
     {
-        Words = request.Words,
-        Date = DateOnly.FromDateTime(request.Date ?? DateTime.Now)
+        Date = DateTime.UtcNow,
+        Word = request.Word
     });
-
-    return "Hello World!";
-})
-.WithName("GetWeatherForecast")
-.WithOpenApi();
-
-app.MapGet("/api/v1/flashcards", ([FromQuery] DateOnly date) =>
-{
-    return new string[]{
-          "afoinagSOIUNDS",
-        "Dragon � gay",
-        "Hunter > Dragon",
-        "GG ez"
-        };
 });
 
-app.MapGet("/hello", () => 
-{
-    return new string[]{
-          "afoinagSOIUNDS",
-        "Dragon � gay",
-        "Hunter > Dragon",
-        "GG ez"
-        };
-});
 
 app.Run();

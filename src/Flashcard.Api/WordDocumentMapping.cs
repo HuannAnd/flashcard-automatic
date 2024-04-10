@@ -7,9 +7,9 @@ public sealed class FlashcardDocumentMapping : IMongoDbFluentConfiguration
 {
     public void Configure()
     {
-        if (BsonClassMap.IsClassMapRegistered(typeof(FlashcardDocument))) return;
+        if (BsonClassMap.IsClassMapRegistered(typeof(WordDocument))) return;
 
-        BsonClassMap.RegisterClassMap<FlashcardDocument>(builder =>
+        BsonClassMap.RegisterClassMap<WordDocument>(builder =>
         {
             builder.AutoMap();
             //builder.MapConstructor(typeof(FlashcardDocument).GetConstructor(new[] { typeof(IEnumerable<string>), typeof(DateOnly?), typeof(Guid?) }));
